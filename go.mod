@@ -1,4 +1,4 @@
-module github.com/pokerblow/dbtestutil
+module github.com/pokerblow/mongotest
 
 go 1.15
 

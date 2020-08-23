@@ -1,4 +1,4 @@
-package dbtestutil
+package mongotest
 
 import (
 	"context"

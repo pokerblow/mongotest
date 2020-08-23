@@ -58,10 +58,10 @@ func (cc *ContainerCurator) KillMongoContainer() {
 }
 
 func (cc *ContainerCurator) GetMongoURI(dbName string) string {
-	return fmt.Sprintf("mongodb://%s:%d/%s", getDockerHost(), cc.getPort(), dbName)
+	return fmt.Sprintf("mongodb://%s:%d/%s", GetMongoHost(), cc.GetMongoPort(), dbName)
 }
 
-func (cc *ContainerCurator) getPort() int {
+func (cc *ContainerCurator) GetMongoPort() int {
 	port, err := strconv.Atoi(cc.resource.GetPort("27017/tcp"))
 	if err != nil {
 		log.Fatalf("Couldn't convert port: %s", err)
@@ -69,7 +69,7 @@ func (cc *ContainerCurator) getPort() int {
 	return port
 }
 
-func getDockerHost() string {
+func GetMongoHost() string {
 	var endpoint string
 	if os.Getenv("DOCKER_HOST") != "" {
 		endpoint = os.Getenv("DOCKER_HOST")

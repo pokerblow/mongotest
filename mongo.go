@@ -36,8 +36,7 @@ func StartMongoContainer(version string) *ContainerCurator {
 	// exponential backoff-retry, because the application in the container might not be ready to accept connections yet
 	if err := pool.Retry(func() error {
 		ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-		mongoURI := fmt.Sprintf("mongo://%s:%d/local", getDockerHost(), cc.GetPort())
-		client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoURI))
+		client, err := mongo.Connect(ctx, options.Client().ApplyURI(cc.GetMongoURI("local")))
 		if err != nil {
 			log.Fatalf("Couldn't create client: %s", err)
 		}
@@ -58,7 +57,11 @@ func (cc *ContainerCurator) KillMongoContainer() {
 	}
 }
 
-func (cc *ContainerCurator) GetPort() int {
+func (cc *ContainerCurator) GetMongoURI(dbName string) string {
+	return fmt.Sprintf("mongo://%s:%d/%s", getDockerHost(), cc.getPort(), dbName)
+}
+
+func (cc *ContainerCurator) getPort() int {
 	port, err := strconv.Atoi(cc.resource.GetPort("27017/tcp"))
 	if err != nil {
 		log.Fatalf("Couldn't convert port: %s", err)

@@ -58,7 +58,7 @@ func (cc *ContainerCurator) KillMongoContainer() {
 }
 
 func (cc *ContainerCurator) GetMongoURI(dbName string) string {
-	return fmt.Sprintf("mongo://%s:%d/%s", getDockerHost(), cc.getPort(), dbName)
+	return fmt.Sprintf("mongodb://%s:%d/%s", getDockerHost(), cc.getPort(), dbName)
 }
 
 func (cc *ContainerCurator) getPort() int {

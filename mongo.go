@@ -47,6 +47,8 @@ func StartMongoContainer(version string) *ContainerCurator {
 	}); err != nil {
 		log.Fatalf("Could not connect to docker: %s", err)
 	}
+
+	resource.Expire(360)
 	return cc
 }
 
